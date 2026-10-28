@@ -1,6 +1,25 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sharan APA 研究來源索引</title><style>body{font:17px/1.8 system-ui;color:#24364b;background:#edf3f7;margin:0}main{max-width:860px;margin:40px auto;padding:28px;background:white;border-radius:16px}h1,h2{line-height:1.4}h2{color:#087f83}a{color:#08728b;overflow-wrap:anywhere}</style></head><body><main>
-<h1>Sharan APA 研究來源索引</h1><p>這份索引整理 Volkswagen Sharan 方向機 HCA 輔助功能計時研究的公開來源，供閱讀與後續查證。</p>
-<h2>原始來源</h2><p><a href="https://gitee.com/helijia233/sharan_apa_patch">https://gitee.com/helijia233/sharan_apa_patch</a></p><p>該研究提出以既有 SGO 標定資料中的候選計時參數，解釋 HCA 輔助功能的週期性中斷。閱讀時需分別判斷檔案差異、參數用途、檔案校驗，以及實際測試效果；這些是不同層次的證據。</p>
-<h2>相關討論</h2><p><a href="https://club.autohome.com.cn/bbs/thread/f342d3e7bfbae7cf/116486921-1.html">汽車之家：作者的相關討論串</a></p><p>來源的說明與實際檔案，請從原發布處取得並確認相應使用權限。</p>
-<h2>本索引的範圍</h2><p>本頁為重新撰寫的短篇研究索引，只提供來源與閱讀重點；SGO 檔案、上游詳細說明、修改工具及原始提交紀錄均未包含。若需要重新散布第三方檔案或翻譯其完整說明，應另行確認授權。</p><p>整理日期：2026-10-28。</p>
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sharan APA 方向機標定研究｜繁體中文說明</title><link rel="stylesheet" href="docs/guide.css"></head>
+<body><main>
+<header><span class="badge">本機繁體中文整理版</span><h1>Sharan APA 方向機標定研究</h1><p>Volkswagen 夏朗 J500／APA-BS：HCA 週期性中斷時間的候選標定修改。</p><div class="source"><strong>原始來源：</strong><a href="https://gitee.com/helijia233/sharan_apa_patch">https://gitee.com/helijia233/sharan_apa_patch</a><br>原作者帳號：helijia233（顯示名稱 helijia21）。本機版由 Codex 翻譯為繁體中文並補充導讀，未宣稱為原作者發布的新版本。</div><p class="meta">整理日期：2026-10-28（Asia/Taipei） · clone 版本：<code>91d854c73f927a47b5e18d674ad9694447445f34</code></p><nav><a href="timebomb/README.html">詳細定位與校驗分析</a><a href="docs/autohome-notes.html">論壇背景與操作導讀</a></nav></header>
+<section><h2>這個專案在研究什麼</h2><p>上游描述的 HCA 行為是：持續接受車道保持扭矩疊加約 360 秒後，中斷約 3 秒，再恢復約 300 秒。作者嘗試在既有 SGO 中定位對應計時常數，以修改標定的方式縮短中斷。</p><div class="flow"><div class="step">原始 SGO<br>版本與料號對應</div><span class="arrow">→</span><div class="step">候選計時標定<br>定位與跨版本比較</div><span class="arrow">→</span><div class="step">修改 SGO<br>重新計算校驗</div><span class="arrow">→</span><div class="step">ODIS-E 刷寫<br>後續量測驗證</div></div><p class="note">上游詳細 README 明確保留一項限制：沒有 ECU 程式碼，無法完全證明 HCA 狀態機讀取的就是這個參數。檔案校驗通過與實際效果成立，是兩件需要分別驗證的事。這次僅下載及整理文件，沒有連接車輛或執行刷寫。</p><p>文中的「鎖定／失效」是作者對 HCA 輔助功能中斷的描述；不能由文章推定整個機械轉向鎖住或一般轉向助力全部消失。</p></section>
+<section><h2>專案目錄</h2><pre>sharan-apa-patch/
+├── .git/                         上游版本歷史
+├── README.html                   繁體中文首頁
+├── originals/                    未修改的原始 SGO
+│   ├── 5N1909144R_1401_BP.sgo
+│   └── 5N1909144S_1501_BP.sgo
+├── timebomb/                     上游提供的四份修改 SGO
+│   ├── README.html               繁體中文詳細分析
+│   ├── R_1401_BP_lockout3s_to_0.01s.sgo
+│   ├── R_1401_BP_lockout3s_to_0s.sgo
+│   ├── S_1501_BP_lockout3s_to_0.01s.sgo
+│   └── S_1501_BP_lockout3s_to_0s.sgo
+└── docs/
+    ├── guide.css
+    └── autohome-notes.html</pre><p>為符合英文命名習慣，上游「原版」目錄在本機改名為 <code>originals/</code>；兩份 Markdown README 改為繁體中文 HTML。SGO 檔名及內容保留原樣。上游原文仍可從 Gitee 與本機 Git 歷史查閱。</p></section>
+<section><h2>上游列出的料號與版本</h2><div class="scroll"><table><thead><tr><th>原始檔</th><th>零件號</th><th>軟體識別（上游描述）</th></tr></thead><tbody><tr><td><a href="originals/5N1909144R_1401_BP.sgo">5N1909144R_1401_BP.sgo</a></td><td>5N1909144R</td><td>SV01.14.02／APA_SW.C14_20-S1／2013</td></tr><tr><td><a href="originals/5N1909144S_1501_BP.sgo">5N1909144S_1501_BP.sgo</a></td><td>5N1909144S</td><td>SV01.15.02 B01／APA_SW.C15_20-S1／2015</td></tr></tbody></table></div><p>同族 N_1101（2011）被上游列為交叉比對樣本，但沒有包含在這份倉庫中。上述版本是研究範圍，不能當作其他料號或所有夏朗車型的相容清單。</p></section>
+<section><h2>候選時間常數</h2><p>下表位址屬於解碼後映像的 Flash 位址。SGO 檔案包含標頭與區塊，不能直接將 Flash 位址當作檔案偏移。數值格式為 16 位元小端（u16 LE）；以作者採用的 10 ms tick 解釋。</p><div class="scroll"><table><thead><tr><th>作者推定用途</th><th>數值</th><th>R_1401_BP</th><th>S_1501_BP</th></tr></thead><tbody><tr><td>初次工作 360 秒</td><td>36000／0x8CA0</td><td><code>0x0360F8</code></td><td><code>0x036170</code></td></tr><tr><td>恢復後工作 300 秒</td><td>30000／0x7530</td><td><code>0x036102</code></td><td><code>0x03617A</code></td></tr><tr><td>中斷 3 秒</td><td>300／0x012C</td><td><code>0x036212</code></td><td><code>0x03628A</code></td></tr></tbody></table></div><p>作者以 36000 的唯一出現位置作為錨點，觀察另兩個數值位於 <code>+0x00A</code> 與 <code>+0x11A</code>，並比較不同軟體版本的相對布局。完整推理見<a href="timebomb/README.html">詳細分析</a>。</p></section>
+<section><h2>四份修改檔</h2><div class="scroll"><table><thead><tr><th>檔案</th><th>目標數值改動</th><th>作者預期</th></tr></thead><tbody><tr><td><a href="timebomb/R_1401_BP_lockout3s_to_0.01s.sgo">R_1401_BP_lockout3s_to_0.01s.sgo</a></td><td>R：300 → 1</td><td>3 秒 → 0.01 秒</td></tr><tr><td><a href="timebomb/R_1401_BP_lockout3s_to_0s.sgo">R_1401_BP_lockout3s_to_0s.sgo</a></td><td>R：300 → 0</td><td>3 秒 → 0 秒</td></tr><tr><td><a href="timebomb/S_1501_BP_lockout3s_to_0.01s.sgo">S_1501_BP_lockout3s_to_0.01s.sgo</a></td><td>S：300 → 1</td><td>3 秒 → 0.01 秒</td></tr><tr><td><a href="timebomb/S_1501_BP_lockout3s_to_0s.sgo">S_1501_BP_lockout3s_to_0s.sgo</a></td><td>S：300 → 0</td><td>3 秒 → 0 秒</td></tr></tbody></table></div><p>上游宣稱已重算區塊校驗與檔案校驗。這次核對的是六份 SGO 與 clone 版本的位元組一致性，並未獨立重新驗證 SGO 校驗演算法或實車效果。</p></section>
+<section><h2>來源與整理範圍</h2><ul><li><strong>原始來源：</strong><a href="https://gitee.com/helijia233/sharan_apa_patch">https://gitee.com/helijia233/sharan_apa_patch</a></li><li><a href="https://gitee.com/helijia233/sharan_apa_patch/blob/91d854c73f927a47b5e18d674ad9694447445f34/timebomb/README.md">固定版本的原始詳細分析</a></li><li><a href="https://club.autohome.com.cn/bbs/thread/f342d3e7bfbae7cf/116486921-1.html?type=None?from=m">汽車之家相關文章</a>：〈通往L2之路的夏朗APA转向机-new〉。</li></ul><p>本整理版包含英文目錄、繁體中文 HTML、術語說明、來源索引與證據界限。上游目前未附 LICENSE；本版保留來源與作者歸屬，沒有另行宣告授權，相關再散布授權仍待確認。</p></section><footer>閱讀入口：README.html · 整理日期：2026-10-28</footer>
 </main></body></html>
